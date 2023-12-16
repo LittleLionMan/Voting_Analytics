@@ -1,9 +1,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
+import { chains } from '@/queries/chainInfo';
+import { handleStatus } from '@/functions/helpers';
 
-interface Chains {
-    [chain: string]: string;
-}
 
 interface Proposal {
     proposal_id: string;
@@ -11,19 +10,17 @@ interface Proposal {
     status: string;
   }
 
-const chains: Chains = {
-    Cosmos_Hub: "https://rest.cosmos.directory/cosmoshub/cosmos/gov/v1beta1/proposals"
-}
-
 export default function Inputform() {
     const [proposalsFetched, setProposalsFetched] = useState(false);
     const [proposalsData, setProposalsData] = useState({proposals: []});
+    const [chainName, setChainName] = useState("");
 
     async function getProposals(chain: string) {
         const name = typeof document !== 'undefined' && document.getElementById('chainName');
         if (name) {
             name.textContent = chain;
         }
+        setChainName(chain);
         try {
             const response = await fetch(chains[chain] + '?pagination.limit=1000'); // Use the first URL in the array
             if (response.ok) {
@@ -38,21 +35,9 @@ export default function Inputform() {
           }
     }
 
-    function handleStatus(status: string) {
-        switch(status) {
-            case "PROPOSAL_STATUS_PASSED":
-                return "Passed"
-            case "PROPOSAL_STATUS_FAILED":
-                return "Failed"
-            case "PROPOSAL_STATUS_REJECTED":
-                return "Rejected"
-            case "PROPOSAL_STATUS_DEPOSIT_PERIOD":
-                return "Deposit Period"
-            case "PROPOSAL_STATUS_VOTING_PERIOD":
-                return "Voting Period"
-            default:
-                return "unknown"
-        }
+    function handleLink(id: string) {
+        const link = "proposal/" + chainName + '/' + id
+        return link
     }
 
     const resetProposals = () => {
@@ -63,9 +48,6 @@ export default function Inputform() {
             name.textContent = "";
         }
     };
-    
-
-    console.log(proposalsData)
 
     return (
         <div className="container-fluid vh-100">
@@ -129,7 +111,7 @@ export default function Inputform() {
                                 <td>{handleStatus(proposal.status)}</td>
                                 <td
                                     //onClick={() => }
-                                >{proposal.status != "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? "Details" : ""}</td>
+                                ><Link href={handleLink(proposal.proposal_id)}>{proposal.status != "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? "Details" : ""}</Link></td>
                             </tr>
                             ))
                         ) : (
