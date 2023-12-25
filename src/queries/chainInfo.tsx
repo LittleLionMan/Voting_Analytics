@@ -3,5 +3,6 @@ export interface Chains {
 }
 
 export const chains: Chains = {
-    Cosmos_Hub: "https://rest.cosmos.directory/cosmoshub/cosmos/gov/v1beta1/proposals"
+    Cosmos_Hub: "https://cosmos-rest.publicnode.com/cosmos/gov/v1beta1/proposals",
+    Juno: "https://juno-rest.publicnode.com/cosmos/gov/v1/proposals",
 }

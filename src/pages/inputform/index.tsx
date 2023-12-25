@@ -8,6 +8,9 @@ interface Proposal {
     proposal_id: string;
     content: {title: string};
     status: string;
+    title: string;
+    summary: string;
+    id: string;
   }
 
 export default function Inputform() {
@@ -48,6 +51,8 @@ export default function Inputform() {
             name.textContent = "";
         }
     };
+
+    console.log(proposalsData.proposals)
 
     return (
         <div className="container-fluid vh-100">
@@ -106,12 +111,12 @@ export default function Inputform() {
                         proposalsData.proposals.length > 0 ? (
                             proposalsData.proposals.slice().reverse().map((proposal: Proposal, index: number) => (
                             <tr key={index}>
-                                <td>{proposal.proposal_id}</td>
-                                <td>{proposal.content.title}</td>
+                                <td>{proposal.proposal_id ?? proposal.id}</td>
+                                <td>{proposal.content ? proposal.content.title : proposal.title}</td>
                                 <td>{handleStatus(proposal.status)}</td>
                                 <td
                                     //onClick={() => }
-                                ><Link href={handleLink(proposal.proposal_id)}>{proposal.status != "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? "Details" : ""}</Link></td>
+                                ><Link href={handleLink(proposal.proposal_id ?? proposal.id)}>{proposal.status != "PROPOSAL_STATUS_DEPOSIT_PERIOD" ? "Details" : ""}</Link></td>
                             </tr>
                             ))
                         ) : (
