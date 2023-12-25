@@ -63,10 +63,10 @@ export default function Proposal() {
     const total_count = yes_count + no_count + noWithVeto_count + abstain_count;
     
     const data = [
-        { name: 'Yes', value: Number(total > 0 ? yes/total : ((yes_count*100/total_count).toFixed(1))), fill: '#00ff00' },
-        { name: 'No', value: Number(total > 0 ? no : (no_count*100/total_count).toFixed(1)), fill: '#ff0000' },
-        { name: 'No With Veto', value: Number(total > 0 ? noWithVeto : (noWithVeto_count*100/total_count).toFixed(1)), fill: '#800080' },
-        { name: 'Abstain', value: Number(total > 0 ? abstain : (abstain_count*100/total_count).toFixed(1)), fill: '#000000' },
+        { name: 'Yes', value: Number(total > 0 ? (yes*100/total).toFixed(1) : ((yes_count*100/total_count).toFixed(1))), fill: '#00ff00' },
+        { name: 'No', value: Number(total > 0 ? (no*100/total).toFixed(1) : (no_count*100/total_count).toFixed(1)), fill: '#ff0000' },
+        { name: 'No With Veto', value: Number(total > 0 ? (noWithVeto*100/total).toFixed(1) : (noWithVeto_count*100/total_count).toFixed(1)), fill: '#800080' },
+        { name: 'Abstain', value: Number(total > 0 ? (abstain*100/total).toFixed(1) : (abstain_count*100/total_count).toFixed(1)), fill: '#000000' },
     ];
     
 
